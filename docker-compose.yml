@@ -1,0 +1,117 @@
+name: ciudadaniaseguraya
+
+services:
+  mongo:
+    image: mongo:7.0
+    restart: unless-stopped
+    volumes:
+      - ciudadaniaseguraya-mongo:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build:
+      context: ./ciudadaniasegurayaBE
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:3020:3020"
+    environment:
+      NODE_ENV: development
+      HOST: 0.0.0.0
+      PORT: 3020
+      PUBLIC_API_BASE_URL: http://localhost:3020
+      TRUST_PROXY: "false"
+      MONGODB_URI: mongodb://mongo:27017
+      MONGODB_DB_NAME: ciudadaniaseguraya
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-local-access-secret-change-before-sharing-0001}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-local-refresh-secret-change-before-sharing-001}
+      JWT_ACCESS_EXPIRES_IN: 15m
+      JWT_REFRESH_EXPIRES_IN: 7d
+      CORS_ORIGINS: http://localhost:3001
+      CORS_ORIGIN_PATTERNS: ""
+      REFRESH_COOKIE_SAME_SITE: strict
+      REFRESH_COOKIE_SECURE: "false"
+      REFRESH_COOKIE_DOMAIN: ""
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      DEFAULT_CITY_NAME: Bogota
+      DEFAULT_CITY_ID: 66a000000000000000000001
+      DEFAULT_CITY_COUNTRY_CODE: CO
+      CITY_TIMEZONE: America/Bogota
+      H3_BASE_RESOLUTION: 9
+      H3_SUPPORTED_RESOLUTIONS: 4,5,6,7,8,9
+      INCIDENT_CONFIRMATION_THRESHOLD: 3
+      INCIDENT_MATCH_WINDOW_MINUTES: 180
+      AI_INGEST_API_KEY: ${AI_INGEST_API_KEY:-local-ai-ingest-key-change-before-sharing-0001}
+      AGENT_SERVICE_URL: http://agent:8000
+      AGENT_CONTROL_API_KEY: ${AGENT_CONTROL_API_KEY:-local-agent-control-key-change-before-share}
+      AGENT_REQUEST_TIMEOUT_MS: 5000
+      REALTIME_HEARTBEAT_MS: 25000
+      SUPERADMIN_EMAIL: ${SUPERADMIN_EMAIL:-admin@example.test}
+      SUPERADMIN_USERNAME: ${SUPERADMIN_USERNAME:-superadmin}
+      SUPERADMIN_PASSWORD: ${SUPERADMIN_PASSWORD:-ChangeThisLocalPassword123!}
+      SUPERADMIN_DISPLAY_NAME: ${SUPERADMIN_DISPLAY_NAME:-Local Superadmin}
+      LOG_LEVEL: info
+      LOG_PRETTY: "false"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3020/ready').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  agent:
+    build:
+      context: ./ciudadaniasegurayaAGENT
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      BOGOTA_CITY_ID: 66a000000000000000000001
+      SCRAPER_USER_AGENT: CiudadaniaSeguraYaAgent/0.2 (+http://localhost:3001/)
+      DEFAULT_RESULT_LIMIT: 5
+      MAXIMUM_RESULT_LIMIT: 100
+      MAX_COLLECTION_LIMIT: 100
+      ALLOW_PUBLICATION_DATE_FALLBACK: "true"
+      LLM_PROVIDER: ${LLM_PROVIDER:-openai}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5.6-luna}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-}
+      AI_INGEST_URL: http://backend:3020/api/v1/integrations/ai/incidents
+      AI_INGEST_API_KEY: ${AI_INGEST_API_KEY:-local-ai-ingest-key-change-before-sharing-0001}
+      AGENT_CONTROL_API_KEY: ${AGENT_CONTROL_API_KEY:-local-agent-control-key-change-before-share}
+      TRAJECTORIES_PATH: /app/.runs/trajectories
+    volumes:
+      - ciudadaniaseguraya-agent-cache:/app/.cache
+      - ciudadaniaseguraya-agent-runs:/app/.runs
+
+  frontend:
+    build:
+      context: ./ciudadaniasegurayaFE
+      args:
+        NEXT_PUBLIC_APP_URL: http://localhost:3001
+        NEXT_PUBLIC_API_BASE_URL: http://localhost:3020
+        NEXT_PUBLIC_SSE_URL: http://localhost:3020/api/v1/events/stream
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+      agent:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:3001:3001"
+
+volumes:
+  ciudadaniaseguraya-mongo:
+  ciudadaniaseguraya-agent-cache:
+  ciudadaniaseguraya-agent-runs:
