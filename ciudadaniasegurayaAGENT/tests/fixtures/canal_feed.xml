@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Seguridad - Canal Capital</title>
+    <item>
+      <title>Atraco a comerciante fue reportado en el barrio Restrepo</title>
+      <link>https://www.canalcapital.gov.co/actualidad/atraco-prueba-restrepo/</link>
+      <pubDate>Fri, 21 Aug 2026 15:00:00 +0000</pubDate>
+      <description><![CDATA[
+        <p>Un comerciante fue víctima del hecho.</p>
+        <p>The post Atraco appeared first on Canal Capital.</p>
+      ]]></description>
+      <content:encoded><![CDATA[
+        <p>El atraco ocurrió el 20 de agosto de 2026 a las 7:15 p. m. en el barrio Restrepo.</p>
+      ]]></content:encoded>
+    </item>
+  </channel>
+</rss>

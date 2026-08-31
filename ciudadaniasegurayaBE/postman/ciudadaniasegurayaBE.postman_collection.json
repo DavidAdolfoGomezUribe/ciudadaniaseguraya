@@ -1,0 +1,3019 @@
+{
+  "info": {
+    "name": "ciudadaniasegurayaBE",
+    "description": "Coleccion local completa de la API publica y del panel administrativo aislado. No contiene credenciales reales.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/health"
+          }
+        },
+        {
+          "name": "Ready",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/ready"
+          }
+        },
+        {
+          "name": "OpenAPI JSON",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/docs/json"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const suffix = Date.now();",
+                  "pm.environment.set(\"email\", `postman_${suffix}@example.test`);",
+                  "pm.environment.set(\"username\", `postman_${suffix}`);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "if (payload?.data?.accessToken) {",
+                  "  pm.environment.set(\"accessToken\", payload.data.accessToken);",
+                  "}",
+                  "if (payload?.data?.user?.id) {",
+                  "  pm.environment.set(\"normalUserId\", payload.data.user.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "if (payload?.data?.accessToken) {",
+                  "  pm.environment.set(\"accessToken\", payload.data.accessToken);",
+                  "}",
+                  "if (payload?.data?.user?.id) {",
+                  "  pm.environment.set(\"normalUserId\", payload.data.user.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Google login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/google",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"credential\": \"{{googleCredential}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "if (payload?.data?.accessToken) {",
+                  "  pm.environment.set(\"accessToken\", payload.data.accessToken);",
+                  "}",
+                  "if (payload?.data?.user?.id) {",
+                  "  pm.environment.set(\"normalUserId\", payload.data.user.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Link Google",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/auth/google/link",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"credential\": \"{{googleCredential}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Refresh",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/refresh"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "if (payload?.data?.accessToken) {",
+                  "  pm.environment.set(\"accessToken\", payload.data.accessToken);",
+                  "}",
+                  "if (payload?.data?.user?.id) {",
+                  "  pm.environment.set(\"normalUserId\", payload.data.user.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/logout"
+          }
+        },
+        {
+          "name": "Logout all",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/auth/logout-all"
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/auth/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Public profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/users/{{normalUserId}}"
+          }
+        },
+        {
+          "name": "Update my profile",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/users/me",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"displayName\": \"Perfil de prueba Postman\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete my account",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/users/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Incidents",
+      "item": [
+        {
+          "name": "Incident types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/incidents/types"
+          }
+        },
+        {
+          "name": "Create report",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/incidents/reports",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cityId\": \"{{cityId}}\",\n  \"incidentType\": \"robo\",\n  \"title\": \"Robo en transporte publico\",\n  \"description\": \"Descripcion de prueba con detalle verificable.\",\n  \"occurredAt\": \"2026-07-26T18:30:00.000Z\",\n  \"latitude\": 4.711,\n  \"longitude\": -74.0721,\n  \"locationPrecision\": \"approximate\",\n  \"address\": \"Direccion aproximada\",\n  \"neighborhood\": \"Barrio de prueba\",\n  \"evidenceDescription\": \"Evidencia descrita para la prueba\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "const incident = Array.isArray(payload?.data) ? payload.data[0] : payload?.data;",
+                  "if (incident?.id) {",
+                  "  pm.environment.set(\"incidentId\", incident.id);",
+                  "}",
+                  "if (incident?.updatedAt) {",
+                  "  pm.environment.set(\"incidentExpectedUpdatedAt\", incident.updatedAt);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List incidents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/incidents?cityId={{cityId}}&page=1&pageSize=20"
+          }
+        },
+        {
+          "name": "Nearby incidents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/incidents/nearby?cityId={{cityId}}&latitude=4.711&longitude=-74.0721&radiusMeters=2000"
+          }
+        },
+        {
+          "name": "Get incident",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/incidents/{{incidentId}}"
+          }
+        },
+        {
+          "name": "Update owned incident",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/incidents/{{incidentId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Descripcion ciudadana actualizada.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Confirm incident",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/incidents/{{incidentId}}/confirm"
+          }
+        },
+        {
+          "name": "Remove confirmation",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/incidents/{{incidentId}}/confirm"
+          }
+        },
+        {
+          "name": "Delete owned incident",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/incidents/{{incidentId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Geolocation",
+      "item": [
+        {
+          "name": "List cities",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/geolocation/cities"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "if (payload?.data?.[0]?.id) {",
+                  "  pm.environment.set(\"cityId\", payload.data[0].id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Map configuration",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/geolocation/config"
+          }
+        },
+        {
+          "name": "Calculate cell",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/geolocation/cell?latitude=4.711&longitude=-74.0721&resolution=9"
+          }
+        },
+        {
+          "name": "Annual heatmap viewport",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/geolocation/heatmap?cityId={{cityId}}&resolution=9&north=4.9&south=4.4&east=-73.8&west=-74.4"
+          }
+        },
+        {
+          "name": "Annual hexagon detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/geolocation/hexagons/8966e42888fffff?cityId={{cityId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Statistics",
+      "item": [
+        {
+          "name": "Overview",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/statistics/overview?cityId={{cityId}}"
+          }
+        },
+        {
+          "name": "Timeseries",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/statistics/timeseries?cityId={{cityId}}&groupBy=month"
+          }
+        },
+        {
+          "name": "Hourly",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/statistics/hourly?cityId={{cityId}}"
+          }
+        },
+        {
+          "name": "Types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/statistics/types?cityId={{cityId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Forum Posts",
+      "item": [
+        {
+          "name": "Create post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/posts",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Alerta de seguridad en el barrio\",\n  \"content\": \"Informacion comunitaria detallada para una prueba.\",\n  \"tags\": [\n    \"seguridad\",\n    \"barrio\"\n  ],\n  \"relatedIncidentId\": \"{{incidentId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "if (payload?.data?.id) {",
+                  "  pm.environment.set(\"postId\", payload.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List posts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/posts?page=1&pageSize=20"
+          }
+        },
+        {
+          "name": "Get post",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/posts/{{postId}}"
+          }
+        },
+        {
+          "name": "Update post",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/posts/{{postId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Alerta de seguridad actualizada\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete post",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/posts/{{postId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Comments",
+      "item": [
+        {
+          "name": "Create comment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/posts/{{postId}}/comments",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Gracias por compartir esta informacion.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "if (payload?.data?.id) {",
+                  "  pm.environment.set(\"commentId\", payload.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List comments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/posts/{{postId}}/comments?page=1&pageSize=50"
+          }
+        },
+        {
+          "name": "Update comment",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/comments/{{commentId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Comentario actualizado.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete comment",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/comments/{{commentId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reactions",
+      "item": [
+        {
+          "name": "React to post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/posts/{{postId}}/reactions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reactionType\": \"helpful\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Remove post reaction",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/posts/{{postId}}/reactions/helpful"
+          }
+        },
+        {
+          "name": "React to comment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/comments/{{commentId}}/reactions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reactionType\": \"like\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Remove comment reaction",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/comments/{{commentId}}/reactions/like"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Realtime",
+      "item": [
+        {
+          "name": "Public SSE",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/event-stream"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/events/stream?clientId=postman-public-client",
+            "description": "Stream publico. No debe emitir eventos con prefijo admin."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Authentication",
+      "description": "Sesiones administrativas aisladas. Postman mantiene la cookie HttpOnly en su cookie jar; inicia una identidad a la vez para probar refresh/logout.",
+      "item": [
+        {
+          "name": "Login admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/admin/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"{{adminIdentifier}}\",\n  \"password\": \"{{adminPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "if (payload?.data?.accessToken) {",
+                  "  pm.environment.set(\"adminAccessToken\", payload.data.accessToken);",
+                  "}",
+                  "if (payload?.data?.user?.id) {",
+                  "  pm.environment.set(\"adminUserId\", payload.data.user.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login superadmin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/admin/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"{{superadminIdentifier}}\",\n  \"password\": \"{{superadminPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "if (payload?.data?.accessToken) {",
+                  "  pm.environment.set(\"superadminAccessToken\", payload.data.accessToken);",
+                  "}",
+                  "if (payload?.data?.user?.id) {",
+                  "  pm.environment.set(\"superadminUserId\", payload.data.user.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Refresh current admin session",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/admin/auth/refresh"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "if (payload?.data?.accessToken) {",
+                  "  pm.environment.set(\"adminAccessToken\", payload.data.accessToken);",
+                  "}",
+                  "if (payload?.data?.user?.id) {",
+                  "  pm.environment.set(\"adminUserId\", payload.data.user.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Admin me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/auth/me"
+          }
+        },
+        {
+          "name": "Superadmin me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{superadminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/auth/me"
+          }
+        },
+        {
+          "name": "Logout current admin session",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "url": "{{baseUrl}}/api/v1/admin/auth/logout"
+          }
+        },
+        {
+          "name": "Logout all own admin sessions",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/auth/logout-all"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Dashboard",
+      "item": [
+        {
+          "name": "Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/dashboard"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Users",
+      "item": [
+        {
+          "name": "List normal users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/users?page=1&pageSize=25&sortBy=createdAt&sortOrder=desc"
+          }
+        },
+        {
+          "name": "Get normal user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/users/{{normalUserId}}"
+          }
+        },
+        {
+          "name": "Update normal user",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/users/{{normalUserId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"displayName\": \"Nombre corregido por administracion\",\n  \"reason\": \"Correccion solicitada y documentada por soporte.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Suspend normal user",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/users/{{normalUserId}}/suspend",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Suspension temporal por incumplimiento documentado.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Reactivate normal user",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/users/{{normalUserId}}/reactivate",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Revision completada; procede la reactivacion.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Revoke normal user sessions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/users/{{normalUserId}}/revoke-sessions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Revocacion preventiva solicitada por seguridad.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Admin attempts to modify another admin - expect 403",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/users/{{adminUserId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"displayName\": \"Cambio que debe ser rechazado\",\n  \"reason\": \"Prueba negativa de aislamiento entre administradores.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 403\", function () {",
+                  "  pm.response.to.have.status(403);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Logical delete normal user",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/users/{{normalUserId}}",
+            "description": "Accion destructiva logica: ejecutala al final del flujo de prueba.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Solicitud de eliminacion validada por administracion.\",\n  \"confirmation\": \"ELIMINAR\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Administrators",
+      "item": [
+        {
+          "name": "List administrators",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/administrators?page=1&pageSize=25"
+          }
+        },
+        {
+          "name": "Get administrator",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/administrators/{{adminUserId}}"
+          }
+        },
+        {
+          "name": "Admin attempts to promote user - expect 403",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/users/{{normalUserId}}/promote",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Prueba negativa: un admin no puede asignar autoridad.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 403\", function () {",
+                  "  pm.response.to.have.status(403);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Superadmin promotes user",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{superadminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/users/{{normalUserId}}/promote",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Promocion aprobada tras revisar experiencia y solicitud.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Superadmin demotes administrator",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{superadminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/administrators/{{adminUserId}}/demote",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Revocacion de funciones administrativas documentada.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Superadmin suspends administrator",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{superadminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/administrators/{{adminUserId}}/suspend",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Suspension administrativa durante una investigacion.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Superadmin reactivates administrator",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{superadminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/administrators/{{adminUserId}}/reactivate",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Investigacion cerrada y acceso autorizado nuevamente.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Superadmin revokes administrator sessions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{superadminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/administrators/{{adminUserId}}/revoke-sessions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Rotacion preventiva de todas las sesiones administrativas.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Role Requests",
+      "item": [
+        {
+          "name": "Normal user requests admin role",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin-role-requests",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"motivation\": \"Deseo colaborar con la moderacion y cuento con disponibilidad para revisar reportes comunitarios.\",\n  \"experience\": \"Experiencia verificable en gestion comunitaria y protocolos de atencion.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "if (payload?.data?.id) {",
+                  "  pm.environment.set(\"adminRequestId\", payload.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Normal user lists own requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin-role-requests/me?page=1&pageSize=25"
+          }
+        },
+        {
+          "name": "Normal user cancels pending request",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{accessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin-role-requests/{{adminRequestId}}"
+          }
+        },
+        {
+          "name": "Admin recommends normal user",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/admin-role-requests",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"candidateUserId\": \"{{normalUserId}}\",\n  \"motivation\": \"Recomiendo al usuario por su trayectoria consistente apoyando a la comunidad.\",\n  \"experience\": \"Ha colaborado en procesos de verificacion y mediacion comunitaria.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "if (payload?.data?.id) {",
+                  "  pm.environment.set(\"adminRequestId\", payload.data.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Admin lists own recommendations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/admin-role-requests/mine?page=1&pageSize=25"
+          }
+        },
+        {
+          "name": "Superadmin lists all requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{superadminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/admin-role-requests?status=pending&page=1&pageSize=25&sortOrder=asc"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "if (payload?.data?.[0]?.id) {",
+                  "  pm.environment.set(\"adminRequestId\", payload.data[0].id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Superadmin gets request",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{superadminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/admin-role-requests/{{adminRequestId}}"
+          }
+        },
+        {
+          "name": "Superadmin requests additional information",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{superadminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/admin-role-requests/{{adminRequestId}}/request-information",
+            "description": "Registra la solicitud de informacion sin resolver la candidatura.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Adjunta referencias adicionales sobre la experiencia indicada.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Superadmin approves request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{superadminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/admin-role-requests/{{adminRequestId}}/approve",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Solicitud aprobada tras completar la evaluacion requerida.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Superadmin rejects request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{superadminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/admin-role-requests/{{adminRequestId}}/reject",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"La solicitud no cumple todavia los criterios documentados.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Incident Moderation",
+      "item": [
+        {
+          "name": "List pending incidents oldest first",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/incidents?status=pending&page=1&pageSize=25&sortBy=createdAt&sortOrder=asc"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "const incident = Array.isArray(payload?.data) ? payload.data[0] : payload?.data;",
+                  "if (incident?.id) {",
+                  "  pm.environment.set(\"incidentId\", incident.id);",
+                  "}",
+                  "if (incident?.updatedAt) {",
+                  "  pm.environment.set(\"incidentExpectedUpdatedAt\", incident.updatedAt);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get incident moderation detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/incidents/{{incidentId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "const incident = Array.isArray(payload?.data) ? payload.data[0] : payload?.data;",
+                  "if (incident?.id) {",
+                  "  pm.environment.set(\"incidentId\", incident.id);",
+                  "}",
+                  "if (incident?.updatedAt) {",
+                  "  pm.environment.set(\"incidentExpectedUpdatedAt\", incident.updatedAt);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Claim review lock",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/incidents/{{incidentId}}/review-lock",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"expectedUpdatedAt\": \"{{incidentExpectedUpdatedAt}}\",\n  \"ttlSeconds\": 900\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "const incident = Array.isArray(payload?.data) ? payload.data[0] : payload?.data;",
+                  "if (incident?.id) {",
+                  "  pm.environment.set(\"incidentId\", incident.id);",
+                  "}",
+                  "if (incident?.updatedAt) {",
+                  "  pm.environment.set(\"incidentExpectedUpdatedAt\", incident.updatedAt);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update incident with optimistic version",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/incidents/{{incidentId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Titulo corregido durante la revision\",\n  \"reason\": \"Correccion sustentada por la fuente revisada.\",\n  \"expectedUpdatedAt\": \"{{incidentExpectedUpdatedAt}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "const incident = Array.isArray(payload?.data) ? payload.data[0] : payload?.data;",
+                  "if (incident?.id) {",
+                  "  pm.environment.set(\"incidentId\", incident.id);",
+                  "}",
+                  "if (incident?.updatedAt) {",
+                  "  pm.environment.set(\"incidentExpectedUpdatedAt\", incident.updatedAt);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Admin approves incident",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/incidents/{{incidentId}}/approve",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Fuentes revisadas; el incidente puede validarse.\",\n  \"sourceUrls\": [\n    \"https://example.test/fuente-incidente\"\n  ],\n  \"corrections\": {},\n  \"expectedUpdatedAt\": \"{{incidentExpectedUpdatedAt}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "const incident = Array.isArray(payload?.data) ? payload.data[0] : payload?.data;",
+                  "if (incident?.id) {",
+                  "  pm.environment.set(\"incidentId\", incident.id);",
+                  "}",
+                  "if (incident?.updatedAt) {",
+                  "  pm.environment.set(\"incidentExpectedUpdatedAt\", incident.updatedAt);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Admin rejects incident",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/incidents/{{incidentId}}/reject",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reasonCode\": \"insufficient_evidence\",\n  \"reason\": \"No existe evidencia suficiente para validar el reporte.\",\n  \"expectedUpdatedAt\": \"{{incidentExpectedUpdatedAt}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "const incident = Array.isArray(payload?.data) ? payload.data[0] : payload?.data;",
+                  "if (incident?.id) {",
+                  "  pm.environment.set(\"incidentId\", incident.id);",
+                  "}",
+                  "if (incident?.updatedAt) {",
+                  "  pm.environment.set(\"incidentExpectedUpdatedAt\", incident.updatedAt);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Release review lock",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/incidents/{{incidentId}}/review-lock",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"expectedUpdatedAt\": \"{{incidentExpectedUpdatedAt}}\",\n  \"reason\": \"Revision finalizada; se libera el bloqueo temporal.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "const incident = Array.isArray(payload?.data) ? payload.data[0] : payload?.data;",
+                  "if (incident?.id) {",
+                  "  pm.environment.set(\"incidentId\", incident.id);",
+                  "}",
+                  "if (incident?.updatedAt) {",
+                  "  pm.environment.set(\"incidentExpectedUpdatedAt\", incident.updatedAt);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Merge duplicate incident",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/incidents/{{incidentId}}/merge",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"secondaryIncidentId\": \"{{secondaryIncidentId}}\",\n  \"reason\": \"Los dos registros describen el mismo hecho verificado.\",\n  \"expectedUpdatedAt\": \"{{incidentExpectedUpdatedAt}}\",\n  \"secondaryExpectedUpdatedAt\": \"{{secondaryExpectedUpdatedAt}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Create verified incident",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/incidents",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cityId\": \"{{cityId}}\",\n  \"incidentType\": \"vandalismo\",\n  \"title\": \"Incidente verificado por administracion\",\n  \"description\": \"Descripcion respaldada por una fuente administrativa.\",\n  \"occurredAt\": \"2026-07-26T18:30:00.000Z\",\n  \"latitude\": 4.711,\n  \"longitude\": -74.0721,\n  \"locationPrecision\": \"approximate\",\n  \"sourceUrl\": \"https://example.test/fuente-administrativa\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const payload = pm.response.json();",
+                  "const incident = Array.isArray(payload?.data) ? payload.data[0] : payload?.data;",
+                  "if (incident?.id) {",
+                  "  pm.environment.set(\"incidentId\", incident.id);",
+                  "}",
+                  "if (incident?.updatedAt) {",
+                  "  pm.environment.set(\"incidentExpectedUpdatedAt\", incident.updatedAt);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Post Moderation",
+      "item": [
+        {
+          "name": "List posts for moderation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/posts?page=1&pageSize=25&sortBy=createdAt&sortOrder=desc"
+          }
+        },
+        {
+          "name": "Get post moderation detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/posts/{{postId}}"
+          }
+        },
+        {
+          "name": "Edit post as moderator",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/posts/{{postId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Titulo corregido por moderacion\",\n  \"reason\": \"Se corrige el titulo para retirar informacion sensible.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Compatibility - set post status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/posts/{{postId}}/status",
+            "description": "Ruta heredada. Para clientes nuevos usa hide o restore.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"hidden\",\n  \"reason\": \"Compatibilidad temporal con el cliente administrativo anterior.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Hide post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/posts/{{postId}}/hide",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"La publicacion incumple las reglas de contenido vigentes.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Restore post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/posts/{{postId}}/restore",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"La revision confirma que el contenido puede restaurarse.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Logical delete post",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/posts/{{postId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Eliminacion logica por una infraccion grave documentada.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Comment Moderation",
+      "item": [
+        {
+          "name": "List comments for moderation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/comments?page=1&pageSize=25&sortBy=createdAt&sortOrder=desc"
+          }
+        },
+        {
+          "name": "Get comment moderation detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/comments/{{commentId}}"
+          }
+        },
+        {
+          "name": "Edit comment as moderator",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/comments/{{commentId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Comentario corregido sin informacion personal.\",\n  \"reason\": \"Se retiran datos personales expuestos en el comentario.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Compatibility - set comment status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/comments/{{commentId}}/status",
+            "description": "Ruta heredada. Para clientes nuevos usa hide o restore.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"hidden\",\n  \"reason\": \"Compatibilidad temporal con el cliente administrativo anterior.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Hide comment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/comments/{{commentId}}/hide",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"El comentario incumple las reglas de convivencia.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Restore comment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/comments/{{commentId}}/restore",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"La apelacion fue revisada y procede la restauracion.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Logical delete comment",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/comments/{{commentId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Eliminacion logica por contenido prohibido documentado.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Audit",
+      "item": [
+        {
+          "name": "Admin reads own audit",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/audit?page=1&pageSize=25",
+            "description": "El backend limita un admin a su alcance audit.readOwn."
+          }
+        },
+        {
+          "name": "Superadmin reads all audit",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{superadminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/audit?page=1&pageSize=25",
+            "description": "Puede filtrar actorUserId, role, action, resourceType, requestId, from y to."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Settings",
+      "item": [
+        {
+          "name": "Superadmin lists settings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{superadminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/settings"
+          }
+        },
+        {
+          "name": "Superadmin updates setting",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{superadminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/settings",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key\": \"incidentConfirmationThreshold\",\n  \"value\": 3,\n  \"reason\": \"Ajuste operativo aprobado para el entorno de prueba.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Realtime",
+      "item": [
+        {
+          "name": "Protected admin SSE",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/event-stream"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{adminAccessToken}}"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/admin/events/stream?clientId=postman-admin-client",
+            "description": "Stream protegido de eventos admin.*. Mantiene la respuesta abierta."
+          }
+        }
+      ]
+    }
+  ]
+}

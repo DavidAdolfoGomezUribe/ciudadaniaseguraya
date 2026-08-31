@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url><loc>https://www.noticiascaracol.com/colombia/bogota/choque-en-el-barrio-modelia-ab12</loc>
+    <news:news><news:publication_date>2026-08-28T07:27:19-05:00</news:publication_date>
+    <news:title>Reportan accidente en el barrio Modelia</news:title>
+    <news:keywords>Bogotá,Accidente de tránsito</news:keywords></news:news>
+  </url>
+  <url><loc>https://www.noticiascaracol.com/colombia/medellin/otra-noticia-ab12</loc>
+    <news:news><news:publication_date>2026-08-28T06:00:00-05:00</news:publication_date>
+    <news:title>Otra noticia regional</news:title></news:news>
+  </url>
+</urlset>

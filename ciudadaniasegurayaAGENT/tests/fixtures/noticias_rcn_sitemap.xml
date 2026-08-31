@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url><loc>https://www.noticiasrcn.com/colombia/robo-en-bogota-123</loc>
+    <news:news><news:publication_date>2026-08-29T10:43:23-05:00</news:publication_date>
+    <news:title>Investigan robo ocurrido en Bogotá</news:title>
+    <news:keywords>Colombia,Bogotá,Inseguridad en Bogotá</news:keywords></news:news>
+  </url>
+  <url><loc>https://www.noticiasrcn.com/colombia/noticia-en-medellin-456</loc>
+    <news:news><news:publication_date>2026-08-29T09:00:00-05:00</news:publication_date>
+    <news:title>Noticia ocurrida en Medellín</news:title><news:keywords>Antioquia</news:keywords></news:news>
+  </url>
+</urlset>

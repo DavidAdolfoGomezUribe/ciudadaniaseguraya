@@ -1,0 +1,98 @@
+.map-shell {
+  position: relative;
+  height: 580px;
+  min-height: 580px;
+  overflow: hidden;
+  border: 1px solid var(--border-primary);
+  background: var(--map-shell-background);
+  isolation: isolate;
+}
+
+.map-shell .maplibregl-map {
+  height: 100%;
+  min-height: 0;
+  font-family: inherit;
+}
+
+.map-shell .maplibregl-ctrl-group {
+  overflow: hidden;
+  border: 1px solid var(--foreground-primary);
+  border-radius: 2px;
+  box-shadow: 3px 3px 0 var(--shadow-panel);
+}
+
+.map-shell .maplibregl-ctrl-attrib {
+  color: var(--foreground-secondary);
+  background: var(--map-attribution-surface);
+}
+
+.map-shell .maplibregl-ctrl-attrib a {
+  color: var(--foreground-primary);
+}
+
+.map-shell .maplibregl-ctrl-attrib-button,
+.map-shell .maplibregl-ctrl-icon {
+  filter: var(--map-control-icon-filter);
+}
+
+.map-overlay-card {
+  border: 1px solid var(--map-overlay-border);
+  background: var(--map-overlay-surface);
+  box-shadow: 4px 4px 0 var(--map-overlay-shadow);
+  backdrop-filter: blur(2px);
+}
+
+.map-activation {
+  position: absolute;
+  z-index: 12;
+  inset: 0;
+  display: grid;
+  cursor: pointer;
+  place-items: center;
+  background: var(--map-activation-surface);
+}
+
+.map-activation::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0 10px,
+    var(--map-activation-stripe) 10px 11px
+  );
+}
+
+.map-activation__label {
+  position: relative;
+  min-width: min(80%, 330px);
+  padding: 1rem 1.5rem;
+  border: 1px solid var(--foreground-primary);
+  color: var(--selection-foreground);
+  background: var(--selection-primary);
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .landing-map > .map-shell,
+  .landing-map > .landing-map-content,
+  .landing-map > .landing-map-content > .map-shell {
+    height: 100%;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .map-shell {
+    height: 66vh;
+    min-height: 420px;
+  }
+
+  .map-shell .maplibregl-map {
+    height: 100%;
+  }
+}

@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Tests
+coverage/
+playwright-report/
+test-results/
+
+# Local environment
+.env
+.env.local
+.env.*.local
+
+# Tooling
+.vercel/
+.eslintcache
+*.log
+.DS_Store

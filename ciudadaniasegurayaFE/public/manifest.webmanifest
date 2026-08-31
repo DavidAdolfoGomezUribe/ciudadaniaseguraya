@@ -1,0 +1,11 @@
+{
+  "name": "Ciudadanía Segura Ya",
+  "short_name": "CSY",
+  "description": "Mapa ciudadano de incidentes validados en Colombia",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#eeeadd",
+  "theme_color": "#eeeadd",
+  "lang": "es-CO",
+  "icons": []
+}

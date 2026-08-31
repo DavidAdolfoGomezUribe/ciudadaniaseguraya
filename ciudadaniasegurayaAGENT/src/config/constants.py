@@ -1,0 +1,130 @@
+"""Values shared with the existing CiudadaniaSeguraYa backend contract."""
+
+BOGOTA_CITY_ID = "66a000000000000000000001"
+
+BACKEND_INCIDENT_TYPES = (
+    "atraco",
+    "homicidio",
+    "robo",
+    "hurto",
+    "agresion",
+    "secuestro",
+    "extorsion",
+    "violencia_sexual",
+    "violencia_intrafamiliar",
+    "vandalismo",
+    "actividad_sospechosa",
+    "otro",
+)
+
+# ``actividad_sospechosa`` is intentionally excluded because a news report
+# does not provide the observer confirmation that category needs. ``otro`` is
+# reserved for explicit, individual events named in the Iteration 1 brief
+# (fires, traffic crashes and explosions) which have no dedicated backend enum.
+CLASSIFIABLE_INCIDENT_TYPES = tuple(
+    item for item in BACKEND_INCIDENT_TYPES if item != "actividad_sospechosa"
+)
+
+BOGOTA_BOUNDS = {
+    "west": -74.2235137,
+    "east": -74.0101412,
+    "south": 4.465596,
+    "north": 4.8332542,
+}
+
+# Must stay aligned with the simplified MultiPolygon used by the existing
+# backend city seed. GeoJSON order is (longitude, latitude). Each tuple is the
+# exterior ring of one polygon; the current seed has no interior holes.
+BOGOTA_BOUNDARY_RINGS = (
+    (
+        (-74.2235137, 4.6252319),
+        (-74.1843418, 4.5965602),
+        (-74.1772199, 4.553713),
+        (-74.1594476, 4.5610085),
+        (-74.1729552, 4.5412922),
+        (-74.1515686, 4.5386264),
+        (-74.1566017, 4.5266718),
+        (-74.1319495, 4.5368323),
+        (-74.1370806, 4.5475007),
+        (-74.1366139, 4.5520996),
+        (-74.1332357, 4.5562846),
+        (-74.121323, 4.4869789),
+        (-74.1097033, 4.4905486),
+        (-74.0963325, 4.485567),
+        (-74.1094485, 4.5389393),
+        (-74.0969253, 4.5328056),
+        (-74.1036671, 4.5454524),
+        (-74.0984836, 4.5430034),
+        (-74.0938468, 4.5282498),
+        (-74.0939453, 4.5032579),
+        (-74.0850565, 4.4975531),
+        (-74.0827578, 4.5576102),
+        (-74.0679601, 4.563737),
+        (-74.0591859, 4.630253),
+        (-74.0388393, 4.6773751),
+        (-74.0223116, 4.6874693),
+        (-74.0230519, 4.7346076),
+        (-74.0125215, 4.7333245),
+        (-74.0253854, 4.8230587),
+        (-74.0530745, 4.8332542),
+        (-74.0585697, 4.8153986),
+        (-74.078182, 4.8225268),
+        (-74.0411649, 4.8076379),
+        (-74.0632555, 4.7711593),
+        (-74.0755977, 4.7585992),
+        (-74.1208251, 4.7606427),
+        (-74.1282401, 4.7268049),
+        (-74.1581145, 4.7253694),
+        (-74.1559104, 4.7086356),
+        (-74.1768605, 4.7026772),
+        (-74.1584316, 4.6626111),
+        (-74.2210928, 4.644342),
+        (-74.2235137, 4.6252319),
+    ),
+    (
+        (-74.1492391, 4.5107997),
+        (-74.1473575, 4.5057326),
+        (-74.1431236, 4.5084226),
+        (-74.1492391, 4.5107997),
+    ),
+    (
+        (-74.1232932, 4.4797561),
+        (-74.1233745, 4.465596),
+        (-74.1183697, 4.4730652),
+        (-74.1232932, 4.4797561),
+    ),
+    (
+        (-74.1098204, 4.4870674),
+        (-74.1110115, 4.4844653),
+        (-74.1099342, 4.484514),
+        (-74.1098204, 4.4870674),
+    ),
+    (
+        (-74.0798785, 4.5003968),
+        (-74.082607, 4.4974227),
+        (-74.0788156, 4.4988023),
+        (-74.0798785, 4.5003968),
+    ),
+    (
+        (-74.0803854, 4.4748041),
+        (-74.0804377, 4.4711754),
+        (-74.0791878, 4.4750782),
+        (-74.0803854, 4.4748041),
+    ),
+    (
+        (-74.0307996, 4.6760952),
+        (-74.0300678, 4.6737069),
+        (-74.0278471, 4.6753314),
+        (-74.0307996, 4.6760952),
+    ),
+    (
+        (-74.0215902, 4.674976),
+        (-74.02538, 4.6628296),
+        (-74.0101412, 4.6628076),
+        (-74.0215902, 4.674976),
+    ),
+)
+
+BOGOTA_TIMEZONE = "America/Bogota"
+OSM_ATTRIBUTION = "Geocoding: © OpenStreetMap contributors, Nominatim"
+OSM_ATTRIBUTION_HEADER = "OpenStreetMap contributors; Nominatim"

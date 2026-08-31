@@ -1,0 +1,23 @@
+packages:
+  - "."
+
+minimumReleaseAge: 10080
+minimumReleaseAgeStrict: true
+minimumReleaseAgeIgnoreMissingTime: false
+trustPolicy: no-downgrade
+blockExoticSubdeps: true
+strictDepBuilds: false
+
+overrides:
+  eslint-import-resolver-typescript: 3.10.0
+  semver: 7.7.2
+
+ignoredBuiltDependencies:
+  - msw
+  - sharp
+  - unrs-resolver
+
+allowBuilds:
+  msw: false
+  sharp: false
+  unrs-resolver: false

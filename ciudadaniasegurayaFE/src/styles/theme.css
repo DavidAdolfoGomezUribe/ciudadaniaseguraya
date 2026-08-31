@@ -1,0 +1,231 @@
+:root {
+  --background-primary: #eeeadd;
+  --background-secondary: #e4dfcf;
+  --background-panel: #d9d4c5;
+  --background-elevated: #f4f1e7;
+  --foreground-primary: #383832;
+  --foreground-secondary: #626159;
+  --foreground-muted: #76736a;
+  --border-primary: #77766d;
+  --border-soft: rgba(56, 56, 50, 0.22);
+  --selection-primary: #45453f;
+  --selection-foreground: #f7f4ea;
+  --accent-warning: #93443a;
+  --accent-information: #456877;
+  --accent-success: #5e7357;
+  --accent-focus: #235e83;
+  --shadow-panel: rgba(56, 56, 50, 0.14);
+  --header-surface: rgba(238, 234, 221, 0.96);
+  --body-grid-major: rgba(56, 56, 50, 0.035);
+  --body-grid-minor: rgba(56, 56, 50, 0.025);
+  --surface-warning: #f2dfd9;
+  --surface-information: #dce7e9;
+  --surface-success: #e1eadc;
+  --primary-hover: #292925;
+  --danger-background: #93443a;
+  --danger-hover: #79352e;
+  --danger-foreground: #fff;
+  --loader-scan: rgba(255, 255, 255, 0.4);
+  --map-shell-background: #c7c9c2;
+  --map-attribution-surface: rgba(244, 241, 231, 0.88);
+  --map-control-icon-filter: none;
+  --map-overlay-border: rgba(56, 56, 50, 0.7);
+  --map-overlay-surface: rgba(244, 241, 231, 0.94);
+  --map-overlay-shadow: rgba(56, 56, 50, 0.17);
+  --map-activation-surface: rgba(56, 56, 50, 0.08);
+  --map-activation-stripe: rgba(56, 56, 50, 0.035);
+  --chart-grid: #858278;
+  --chart-cursor: rgba(56, 56, 50, 0.08);
+  --chart-line: #456877;
+  --chart-bar: #526c78;
+  --chart-dot: #383832;
+  --switch-housing: #1c1d19;
+  --switch-housing-highlight: #3b3c35;
+  --switch-housing-glint: rgba(255, 255, 255, 0.15);
+  --switch-border: #151612;
+  --switch-shadow: rgba(56, 56, 50, 0.25);
+  --switch-face: #272822;
+  --switch-face-highlight: #45463f;
+  --switch-face-border: #11120f;
+  --switch-face-glint: rgba(255, 255, 255, 0.13);
+  --switch-face-shadow: rgba(5, 6, 4, 0.55);
+  --switch-divider: rgba(238, 234, 221, 0.18);
+  --switch-mark: #f4f1e7;
+  --switch-mark-shadow: #11120f;
+  --map-zero: #2563eb;
+  --map-low: #22c55e;
+  --map-moderate: #eab308;
+  --map-elevated: #f97316;
+  --map-high: #ef4444;
+  --map-maximum: #111827;
+  --header-height: 4.25rem;
+  --content-width: 1600px;
+}
+
+html[data-theme="dark"] {
+  --background-primary: #27160e;
+  --background-secondary: #45291b;
+  --background-panel: #754930;
+  --background-elevated: #45291b;
+  --foreground-primary: #f2e5d5;
+  --foreground-secondary: #edd4be;
+  --foreground-muted: #ceaf93;
+  --border-primary: #ceaf93;
+  --border-soft: rgba(242, 229, 213, 0.2);
+  --selection-primary: #ceaf93;
+  --selection-foreground: #27160e;
+  --accent-warning: #edd4be;
+  --accent-information: #ceaf93;
+  --accent-success: #ceaf93;
+  --accent-focus: #edd4be;
+  --shadow-panel: rgba(39, 22, 14, 0.54);
+  --header-surface: rgba(39, 22, 14, 0.96);
+  --body-grid-major: rgba(242, 229, 213, 0.06);
+  --body-grid-minor: rgba(242, 229, 213, 0.038);
+  --surface-warning: #754930;
+  --surface-information: #45291b;
+  --surface-success: #45291b;
+  --primary-hover: #edd4be;
+  --danger-background: #754930;
+  --danger-hover: #45291b;
+  --danger-foreground: #f2e5d5;
+  --loader-scan: rgba(242, 229, 213, 0.25);
+  --map-shell-background: #754930;
+  --map-attribution-surface: rgba(69, 41, 27, 0.92);
+  --map-control-icon-filter: invert(0.9);
+  --map-overlay-border: rgba(242, 229, 213, 0.54);
+  --map-overlay-surface: rgba(69, 41, 27, 0.95);
+  --map-overlay-shadow: rgba(39, 22, 14, 0.5);
+  --map-activation-surface: rgba(242, 229, 213, 0.09);
+  --map-activation-stripe: rgba(242, 229, 213, 0.05);
+  --chart-grid: #a07352;
+  --chart-cursor: rgba(242, 229, 213, 0.08);
+  --chart-line: #ceaf93;
+  --chart-bar: #a07352;
+  --chart-dot: #f2e5d5;
+  --switch-housing: #27160e;
+  --switch-housing-highlight: #45291b;
+  --switch-housing-glint: rgba(242, 229, 213, 0.13);
+  --switch-border: #27160e;
+  --switch-shadow: rgba(39, 22, 14, 0.58);
+  --switch-face: #45291b;
+  --switch-face-highlight: #754930;
+  --switch-face-border: #27160e;
+  --switch-face-glint: rgba(242, 229, 213, 0.12);
+  --switch-face-shadow: rgba(39, 22, 14, 0.72);
+  --switch-divider: rgba(242, 229, 213, 0.22);
+  --switch-mark: #f2e5d5;
+  --switch-mark-shadow: #27160e;
+}
+
+::selection {
+  color: var(--selection-foreground);
+  background: var(--selection-primary);
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+  background: var(--background-primary);
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+body {
+  min-width: 320px;
+  color: var(--foreground-primary);
+  background:
+    linear-gradient(90deg, transparent 49.8%, var(--body-grid-major) 50%),
+    linear-gradient(var(--body-grid-minor) 1px, transparent 1px),
+    var(--background-primary);
+  background-size:
+    100% 100%,
+    100% 32px,
+    auto;
+  font-family: Inter, "IBM Plex Sans", Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent-focus);
+  outline-offset: 3px;
+}
+
+.technical-label {
+  font-family: "Geist Mono", "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.system-panel {
+  position: relative;
+  border: 1px solid var(--border-primary);
+  background: var(--background-elevated);
+  box-shadow: 5px 5px 0 var(--shadow-panel);
+}
+
+.system-panel::before {
+  position: absolute;
+  top: -1px;
+  left: 1rem;
+  width: 3rem;
+  height: 3px;
+  content: "";
+  background: var(--foreground-primary);
+}
+
+.page-grid {
+  width: min(100%, var(--content-width));
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 3vw, 3rem);
+}
+
+.muted-copy {
+  color: var(--foreground-secondary);
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 10000;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: var(--selection-foreground);
+  background: var(--selection-primary);
+  transform: translateY(-160%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,35 @@
+@import "maplibre-gl/dist/maplibre-gl.css";
+@import "../styles/theme.css";
+@import "../styles/theme-toggle.css";
+@import "../styles/animations.css";
+@import "../styles/map.css";
+@import "../styles/charts.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+button {
+  border: 0;
+}

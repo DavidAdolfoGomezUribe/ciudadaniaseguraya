@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://www.elespectador.com/bogota/robo-en-el-barrio-restrepo/</loc>
+    <news:news>
+      <news:publication_date>2026-08-29T22:00:00Z</news:publication_date>
+      <news:title>Reportan robo en el barrio Restrepo</news:title>
+      <news:keywords>Bogotá, Robo, Seguridad</news:keywords>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.elespectador.com/economia/noticia-no-bogota/</loc>
+    <news:news>
+      <news:publication_date>2026-08-29T21:00:00Z</news:publication_date>
+      <news:title>Noticia de economía</news:title>
+    </news:news>
+  </url>
+</urlset>
