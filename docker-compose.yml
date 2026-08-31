@@ -20,12 +20,12 @@ services:
       mongo:
         condition: service_healthy
     ports:
-      - "127.0.0.1:3020:3020"
+      - "127.0.0.1:3010:3010"
     environment:
       NODE_ENV: development
       HOST: 0.0.0.0
-      PORT: 3020
-      PUBLIC_API_BASE_URL: http://localhost:3020
+      PORT: 3010
+      PUBLIC_API_BASE_URL: http://localhost:3010
       TRUST_PROXY: "false"
       MONGODB_URI: mongodb://mongo:27017
       MONGODB_DB_NAME: ciudadaniaseguraya
@@ -59,7 +59,7 @@ services:
       LOG_LEVEL: info
       LOG_PRETTY: "false"
     healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3020/ready').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3010/ready').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
       interval: 10s
       timeout: 5s
       retries: 20
@@ -87,7 +87,7 @@ services:
       OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5.6-luna}
       OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
       OLLAMA_MODEL: ${OLLAMA_MODEL:-}
-      AI_INGEST_URL: http://backend:3020/api/v1/integrations/ai/incidents
+      AI_INGEST_URL: http://backend:3010/api/v1/integrations/ai/incidents
       AI_INGEST_API_KEY: ${AI_INGEST_API_KEY:-local-ai-ingest-key-change-before-sharing-0001}
       AGENT_CONTROL_API_KEY: ${AGENT_CONTROL_API_KEY:-local-agent-control-key-change-before-share}
       TRAJECTORIES_PATH: /app/.runs/trajectories
@@ -100,8 +100,8 @@ services:
       context: ./ciudadaniasegurayaFE
       args:
         NEXT_PUBLIC_APP_URL: http://localhost:3001
-        NEXT_PUBLIC_API_BASE_URL: http://localhost:3020
-        NEXT_PUBLIC_SSE_URL: http://localhost:3020/api/v1/events/stream
+        NEXT_PUBLIC_API_BASE_URL: http://localhost:3010
+        NEXT_PUBLIC_SSE_URL: http://localhost:3010/api/v1/events/stream
     restart: unless-stopped
     depends_on:
       backend:

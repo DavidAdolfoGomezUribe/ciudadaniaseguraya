@@ -6,7 +6,7 @@ CiudadaniaSeguraYa can be started locally as one reproducible stack: the Next.js
 
 Evidence: all three images built successfully and the four-service stack reached healthy state locally. The backend reported MongoDB ready, the agent control endpoint rejected a missing key with HTTP 401, the authenticated superadmin proxy reported the service active, and both services resolved Bogotá to `66a000000000000000000001`.
 
-> **Hackathon scope:** the agentic system requested by the challenge is implemented in [`ciudadaniasegurayaAGENT`](./ciudadaniasegurayaAGENT). That project contains the five-source collection, deterministic baseline, versioned incident agent, evidence verification, geolocation, OpenAI/Ollama adapters, trajectories, tests, and backend-ingestion boundary. The frontend and backend provide the secure superadmin control surface around it.
+> **Hackathon scope:** the agentic system requested by thede challenge is implemented in [`ciudadaniasegurayaAGENT`](./ciudadaniasegurayaAGENT). That project contains the five-source collection, deterministic baseline, versioned incident agent, evidence verification, geolocation, OpenAI/Ollama adapters, trajectories, tests, and backend-ingestion boundary. The frontend and backend provide the secure superadmin control surface around it.
 
 ## Start the complete local system
 
@@ -29,8 +29,8 @@ The backend initializes the MongoDB schema and synchronizes the local superadmin
 | Frontend | `http://localhost:3001` |
 | Superadmin login | `http://localhost:3001/login/admin` |
 | Agent control panel | `http://localhost:3001/admin/agent` |
-| Backend API | `http://localhost:3020` |
-| Backend OpenAPI | `http://localhost:3020/docs` |
+| Backend API | `http://localhost:3010` |
+| Backend OpenAPI | `http://localhost:3010/docs` |
 | Agent health | `http://localhost:8000/health` |
 | MongoDB | Internal service `mongo:27017` (not exposed on the host) |
 
