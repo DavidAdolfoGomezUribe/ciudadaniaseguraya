@@ -1,0 +1,56 @@
+# Variables de entorno y secretos
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+
+# Archivos locales del entorno
+.docker/
+.pnpm-store/
+.vscode/
+.idea/
+*.local
+*.log
+
+# Bases de datos locales / datos generados
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+/data/
+/uploads/
+
+# Python cache y entornos virtuales
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# Node / frontend build artifacts
+node_modules/
+.next/
+out/
+dist/
+build/
+coverage/
+.npm/
+.pnpm-debug.log*
+
+# Archivos de sistema / varios
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+
+# Archivos de documentación o entregables no públicos
+*.pdf
+*.docx
+*.zip
+*.tar.gz
+
+# Docker local overrides
+compose.override.yml
